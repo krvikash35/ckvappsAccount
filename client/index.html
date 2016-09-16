@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>ckvapps</title>
-</head>
-<body>
-<h1>ckvapps account</h1>
-</body>
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <title>Socket.IO chat</title>
+  </head>
+  <body ng-controller="ChatController">
+
+
+<button ng-click="createSocket()">CreateConnection</button>
+<button ng-click="closeSocket()">CloseConnection</button>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="client/app.js"></script>
+
+
+
+  </body>
 </html>
