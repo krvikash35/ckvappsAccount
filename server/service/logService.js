@@ -100,16 +100,16 @@ function Logger(options){
     }else {
       switch (type) {
         case 'error':
-          console.log('%s[ERROR]%s  [%s] --->[%s]', "\x1b[41m", "\x1b[0m", currentTS, msg );
+          console.log('%s[ERROR]  %s[%s] %s--->[%s]', "\x1b[31m",   "\x1b[36m",  currentTS,"\x1b[0m",  msg );
           break;
         case 'warn':
-          console.log('%s[WARN]%s  [%s] --->[%s]', "\x1b[43m", "\x1b[0m", currentTS, msg );
+          console.log('%s[WARN]  %s[%s] %s--->[%s]', "\x1b[33m",   "\x1b[36m",  currentTS,"\x1b[0m",  msg );
           break;
         case 'info':
-          console.log('%s[INFO]%s  [%s] --->[%s]', "\x1b[42m", "\x1b[0m", currentTS, msg );
+          console.log('%s[INFO]  %s[%s] %s--->[%s]', "\x1b[32m",   "\x1b[36m",  currentTS,"\x1b[0m",  msg );
           break;
         case 'debug':
-          console.log('%s[DEBUG]%s  [%s] --->[%s]', "\x1b[35m", "\x1b[0m", currentTS, msg );
+          console.log('%s[DEBUG]  %s[%s] %s--->[%s]', "\x1b[35m",   "\x1b[36m",  currentTS,"\x1b[0m",  msg );
           break;
       }
     }
