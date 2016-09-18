@@ -1,5 +1,5 @@
-var log = require(__proot+'/server/service/logService');
-var prop = require(__proot+'/server/properties');
+var log = require(__proot + "/service/shared/log/logService")
+var prop = require(__proot+'/properties');
 
 module.exports = dbConfig;
 

@@ -4,7 +4,7 @@
 */
 var EventEmitter = require('events').EventEmitter;
 var fs = require('fs');
-var prop = require(__proot + "/server/properties")
+var prop = require(__proot + "/properties")
 /*
 logLevel: 0-nothing, 1-error, 2-warn, 3-info
 logMethod:1-CONSOLE, 2-FILE
