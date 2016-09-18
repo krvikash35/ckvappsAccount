@@ -2,6 +2,7 @@ var log = require(__proot + "/service/shared/log/logService")
 var bodyParser = require('body-parser');
 var exp = require('express');
 var morgan = require('morgan')
+var authService = require(__proot + "/service/auth/authService")
 
 module.exports = routeConfig;
 
@@ -15,6 +16,8 @@ function routeConfig(app) {
     }));
     app.use(bodyParser.json());
     app.use('/user/:userId', privResAccessValidator);
+    app.use('/login', authService.login)
+    app.use('/oauth2callback', authService.handleOauthCallback)
 
 
     // app.get('/', function(req, res){
