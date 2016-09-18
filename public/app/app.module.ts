@@ -9,8 +9,8 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 @NgModule({
     imports: [BrowserModule, AuthModule, routing],
     declarations: [AppComponent],
-    bootstrap: [AppComponent]
-    // providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }]
+    bootstrap: [AppComponent],
+    providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }]
 })
 
 export class AppModule { }
