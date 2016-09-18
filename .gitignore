@@ -1,4 +1,6 @@
-public/app*.js
+public/app/*.js
+public/app/auth/*.js
+
 
 node_modules
 node_modules/*
