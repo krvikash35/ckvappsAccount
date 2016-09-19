@@ -1,0 +1,12 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"file_exclude_patterns": [
+				"public/app/*.js", 
+				"public/app/auth/*.js"
+			]
+		}
+	]
+}
