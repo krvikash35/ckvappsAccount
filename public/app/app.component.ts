@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-
 @Component({
     selector: 'my-app',
     template: `
@@ -10,10 +9,12 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
       `
 })
+
 export class AppComponent {
     constructor(
         private router: Router
     ) { }
+
 
 
 }
