@@ -1,5 +1,6 @@
 public/app/*.js
 public/app/auth/*.js
+public/app/auth/shared/*.js
 
 
 node_modules
