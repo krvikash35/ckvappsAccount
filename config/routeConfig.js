@@ -4,6 +4,7 @@ var exp = require('express');
 var morgan = require('morgan')
 var authService = require(__proot + "/service/auth/authService")
 
+
 module.exports = routeConfig;
 
 function routeConfig(app) {
@@ -20,9 +21,6 @@ function routeConfig(app) {
     app.use('/oauth2callback', authService.handleOauthCallback)
 
 
-    // app.get('/', function(req, res){
-    //   res.send("hello");
-    // })
 }
 
 function privResAccessValidator(req, resp, next) {
