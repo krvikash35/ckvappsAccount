@@ -8,6 +8,7 @@ import {  AuthService } from './auth.service';
 })
 export class LoginComponent implements OnInit {
     private isLoggedIn: boolean;
+    public errMsg = null;
 
     constructor(
         private authService: AuthService
@@ -18,14 +19,15 @@ export class LoginComponent implements OnInit {
     }
 
     login(via) {
-        this.authService.login(via)
+        this.authService.login(via)            
             .subscribe(
             data => {
-                console.log(data)
-                window.location.href = data;
+                console.log( "LoginComponent.login on success: " + JSON.stringify( data ) )
+                window.location.href = data.toString();
             },
             error => {
-                console.log(error)
+                this.errMsg = error.description;
+                console.log( "LoginComponent.login on error: " + JSON.stringify( error ) )                
             }
             )
     }
