@@ -1,5 +1,6 @@
 var prop = require(__proot + "/properties")
 var log = require(__proot + "/service/shared/log/logService")
+var error = require(__proot + "/service/error/error")
 
 module.exports = appConfig;
 
