@@ -6,7 +6,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
     template: `
       <h1>ckvapps</h1>
       <router-outlet></router-outlet>
-
       `
 })
 
@@ -14,7 +13,4 @@ export class AppComponent {
     constructor(
         private router: Router
     ) { }
-
-
-
 }
