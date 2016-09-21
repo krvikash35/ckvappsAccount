@@ -8,5 +8,5 @@ var mongoose = require('mongoose');
 
 //configuaration: db, app, router etc
 require('./config/appConfig')(httpd);
-require('./config/dbConfig')(mongoose);
+require('./config/dbConfig').createConnection();
 require('./config/routeConfig')(app);
