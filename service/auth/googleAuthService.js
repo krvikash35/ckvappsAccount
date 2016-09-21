@@ -91,7 +91,6 @@ function getAccessTokenPayload(accessToken) {
                 reject(error.ServerError('Error reading google pem key file at ' + fileLoc));
             else {               
                 jwt.verify(accessTokenP.id_token, cert, {
-                        algorithms: ['RS256'],
                         ignoreExpiration: true,
                         issuer: prop.idProvider.google.iss
                     },
