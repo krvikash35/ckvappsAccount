@@ -67,7 +67,7 @@ function getAccessToken(auth_code) {
             handleAccessToken
         )
         function handleAccessToken(err, httpRes, body) {
-            log.debug("entered GoogleAuthService.getAccessToken.handleAccessToken with body: " + JSON.stringify( body, null, 4 ) );
+            log.debug("entered GoogleAuthService.getAccessToken.handleAccessToken with body: " + body );
             if (err) {
                 reject(new error.ServerError(err.message))
             } else if (body.error) {
@@ -83,7 +83,11 @@ function getAccessToken(auth_code) {
 function getAccessTokenPayload(accessToken) {
     log.debug("entered GoogleAuthService.getAccessTokenPayload with accessToken: " + accessToken);
     return new Promise(function(fulfill, reject) {
-        let accessTokenP = JSON.parse( accessToken )
+
+        let accessTokenP = JSON.parse( accessToken ); 
+        var payload = jwt.decode(accessTokenP.id_token);
+        fulfill(payload);
+        
 
         let fileLoc = __proot + '/keys/google.pem';
         fs.readFile(fileLoc, (err, cert) => {
