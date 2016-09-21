@@ -66,13 +66,12 @@ function getAccessToken(auth_code) {
             },
             handleAccessToken
         )
-
         function handleAccessToken(err, httpRes, body) {
             log.debug("entered GoogleAuthService.getAccessToken.handleAccessToken with body: " + JSON.stringify( body, null, 4 ) );
             if (err) {
                 reject(new error.ServerError(err.message))
             } else if (body.error) {
-                reject(new error.SocialProviderError("GoogleErrRespForAccessToken: " + body.error.error_description));
+                reject(new error.SocialProviderError("GoogleErrRespForAccessToken-" + body.error.name + "-" + body.error.error_description) );
             } else {
                 fulfill(body)
             }
@@ -84,22 +83,23 @@ function getAccessToken(auth_code) {
 function getAccessTokenPayload(accessToken) {
     log.debug("entered GoogleAuthService.getAccessTokenPayload with accessToken: " + accessToken);
     return new Promise(function(fulfill, reject) {
+        let accessTokenP = JSON.parse( accessToken )
 
         let fileLoc = __proot + '/keys/google.pem';
         fs.readFile(fileLoc, (err, cert) => {
             if (err)
                 reject(error.ServerError('Error reading google pem key file at ' + fileLoc));
-            else {
-                jwt.verify(accessToken, cert, {
+            else {               
+                jwt.verify(accessTokenP.id_token, cert, {
                         algorithms: ['RS256'],
                         ignoreExpiration: true,
-                        issuer: prop.idProvider.google.name
+                        issuer: prop.idProvider.google.iss
                     },
                     function(err, payload) {
                         if (err) {
                             reject(new error.SocialProviderError("InvalidGooleAccessToken-" + err.name + "-" + err.message ) )
                         } else {
-                            resolve(payload);
+                            fulfill(payload);
                         }
                     })
             }
