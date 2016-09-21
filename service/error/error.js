@@ -5,7 +5,8 @@ var error = {
 	"InvalidRequestError": InvalidRequestError,
 	"ServerError": ServerError,
 	"DBError": DBError,
-	"BusinessError": BusinessError
+	"BusinessError": BusinessError,
+	"SocialProviderError": SocialProviderError
 }
 
 module.exports = error;
@@ -41,6 +42,16 @@ function DBError(msg){
 }
 
 function BusinessError(msg){
+	Error.captureStackTrace(this, this.constructor);
+	this.name = this.constructor.name;
+	this.message = msg;		
+	this.resForUser = {
+		"error": this.constructor.name,
+		"description": msg
+	}
+}
+
+function SocialProviderError(msg){
 	Error.captureStackTrace(this, this.constructor);
 	this.name = this.constructor.name;
 	this.message = msg;		
