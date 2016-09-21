@@ -58,8 +58,8 @@ function handleOauthCallback(req, res) {
                 .then( function( gAccessToken ) {
                     return googleAuthService.getAccessTokenPayload( gAccessToken );
                 })
-                .then( function( payload ) {
-                    res.status(200).send(payload);
+                .then( function( gpayload ) {
+                    res.status(200).send( gpayload );
                 } )
                 .catch(function(err) {
                     log.error(err.stack)
