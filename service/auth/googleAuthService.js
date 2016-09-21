@@ -3,8 +3,7 @@ var jwt = require('jsonwebtoken');
 var fs = require('fs');
 var request = require('request');
 var prop = require(__proot + '/properties');
-var log = require(__proot + '/service/shared/log/logService');
-var ReqResExtracter = require(__proot + '/service/shared/log/reqResExtracter');
+var log = require(__proot + '/service/log/logService');
 var error = require(__proot + '/service/error/error')
 
 module.exports = new GoogleAuthService();
@@ -66,12 +65,13 @@ function getAccessToken(auth_code) {
             },
             handleAccessToken
         )
+
         function handleAccessToken(err, httpRes, body) {
-            log.debug("entered GoogleAuthService.getAccessToken.handleAccessToken with body: " + body );
+            log.debug("entered GoogleAuthService.getAccessToken.handleAccessToken with body: " + body);
             if (err) {
                 reject(new error.ServerError(err.message))
             } else if (body.error) {
-                reject(new error.SocialProviderError("GoogleErrRespForAccessToken-" + body.error.name + "-" + body.error.error_description) );
+                reject(new error.SocialProviderError("GoogleErrRespForAccessToken-" + body.error.name + "-" + body.error.error_description));
             } else {
                 fulfill(body)
             }
@@ -84,23 +84,23 @@ function getAccessTokenPayload(accessToken) {
     log.debug("entered GoogleAuthService.getAccessTokenPayload with accessToken: " + accessToken);
     return new Promise(function(fulfill, reject) {
 
-        let accessTokenP = JSON.parse( accessToken ); 
+        let accessTokenP = JSON.parse(accessToken);
         var payload = jwt.decode(accessTokenP.id_token);
         fulfill(payload);
-        
+
 
         let fileLoc = __proot + '/keys/google.pem';
         fs.readFile(fileLoc, (err, cert) => {
             if (err)
                 reject(error.ServerError('Error reading google pem key file at ' + fileLoc));
-            else {               
+            else {
                 jwt.verify(accessTokenP.id_token, cert, {
                         ignoreExpiration: true,
                         issuer: prop.idProvider.google.iss
                     },
                     function(err, payload) {
                         if (err) {
-                            reject(new error.SocialProviderError("InvalidGooleAccessToken-" + err.name + "-" + err.message ) )
+                            reject(new error.SocialProviderError("InvalidGooleAccessToken-" + err.name + "-" + err.message))
                         } else {
                             fulfill(payload);
                         }

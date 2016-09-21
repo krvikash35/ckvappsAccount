@@ -1,5 +1,4 @@
 'use strict'
-var log = require(__proot + "/service/shared/log/logService")
 var bodyParser = require('body-parser');
 var exp = require('express');
 var morgan = require('morgan')
