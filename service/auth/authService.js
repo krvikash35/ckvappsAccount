@@ -17,7 +17,7 @@ function AuthService() {
 AuthService.prototype.login = login;
 AuthService.prototype.handleOauthCallback = handleOauthCallback;
 
-function login(req, res) {
+function login(req, res) {  
     log.debug("entered Authservice.login with : \n" + ReqResExtracter.getRequest(req));
     let returnData = {
         "data": null
