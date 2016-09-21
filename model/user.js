@@ -1,5 +1,6 @@
 'use strict'
-var mongoose = require( 'mongoose');
+var dbcon = require(__proot + '/config/dbConfig').getConnection();
+var mongoose = require('mongoose')
 var error = require(__proot + '/service/error/error');
 var log = require(__proot + '/service/shared/log/logService');
 var prop = require(__proot + '/properties');
@@ -15,8 +16,7 @@ var userSchema = new mongoose.Schema({
 
 })
 
-var User = mongoose.model( 'Users', userSchema );
-
+var User = dbcon.model( 'Users', userSchema );
 var userService = {
 	createUser: createUser,
 	updateUser: updateUser
@@ -30,8 +30,7 @@ function createUser(userInfo, idProvider){
 	return new Promise( function( fulfill, reject ) {
 
 		var userd = {};
-		if( idProvider==='google' ){
-		console.log( "google provider")			
+		if( idProvider==='google' ){		
 			userd.name = userInfo.name;
 			userd.email = userInfo.email;
 			userd.picture = userInfo.picture;
