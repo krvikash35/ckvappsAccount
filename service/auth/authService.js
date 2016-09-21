@@ -1,5 +1,5 @@
 'use strict'
-var request = require('request')
+var request = require('request');
 var prop = require(__proot + '/properties')
 var log = require(__proot + '/service/shared/log/logService')
 var ReqResExtracter = require(__proot + '/service/shared/log/reqResExtracter')
@@ -42,28 +42,30 @@ function login(req, res) {
         res.status(400);
     }
 
-    log.debug("returned Authservice.login with : \n" + returnData);
-    return res.send(returnData)
+   return res.send(returnData)
 }
 
 function handleOauthCallback(req, res) {
     log.debug("called AuthService.handleOauthCallback with : \n" + ReqResExtracter.getRequest(req));
-    let returnData = {
-        "data": null
+
+    let idProvider = prop.idProvider.google.name;
+    switch (idProvider) {
+        case prop.idProvider.google.name:
+            googleAuthService.getAuthCode(req)
+                .then( function( gAuthCode ) {
+                    return googleAuthService.getAccessToken( gAuthCode );
+                })
+                .then( function( gAccessToken ) {
+                    return googleAuthService.getAccessTokenPayload( gAccessToken );
+                })
+                .then( function( payload ) {
+                    res.status(200).send(payload);
+                } )
+                .catch(function(err) {
+                    log.error(err.stack)
+                    res.status(400).send(err.resForUser)
+                })
+            break;
     }
 
-    let referer = "google";
-    if (referer === "google") {
-        if (req.query) {
-            if (req.query.error) {
-
-            } else {
-                googleAuthService.getAccessToken(req.query.code, res);
-            }
-
-        }
-
-    }
-
-    return res.send(returnData)
 }
