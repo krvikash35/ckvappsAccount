@@ -5,6 +5,7 @@ var log = require(__proot + '/service/shared/log/logService')
 var ReqResExtracter = require(__proot + '/service/shared/log/reqResExtracter')
 var googleAuthService = require(__proot + '/service/auth/googleAuthService');
 var error = require(__proot + '/service/error/error');
+var user = require(__proot + '/model/user');
 
 module.exports = new AuthService();
 
@@ -24,7 +25,7 @@ function login(req, res) {
 
     if (req.query && req.query.via) {
         switch (req.query.via) {
-            case "google":
+            case prop.idProvider.google.name:
                 returnData.data = googleAuthService.getAuthUrl();
                 res.status(200);
                 break;
@@ -46,7 +47,7 @@ function login(req, res) {
 }
 
 function handleOauthCallback(req, res) {
-    log.debug("called AuthService.handleOauthCallback with : \n" + ReqResExtracter.getRequest(req));
+    log.debug("called AuthService.handleOauthCallback with:" + ReqResExtracter.getRequest(req) );
 
     let idProvider = prop.idProvider.google.name;
     switch (idProvider) {
@@ -59,8 +60,11 @@ function handleOauthCallback(req, res) {
                     return googleAuthService.getAccessTokenPayload( gAccessToken );
                 })
                 .then( function( gpayload ) {
-                    res.status(200).send( gpayload );
+                    return user.createUser( gpayload, idProvider );                   
                 } )
+                .then( function( user ) {
+                     res.status(200).send( user );
+                })
                 .catch(function(err) {
                     log.error(err.stack)
                     res.status(400).send(err.resForUser)
