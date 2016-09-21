@@ -4,7 +4,7 @@ module.exports = {
         "state": 'CLEAN' //DIRTY OR CLEAN
     },
     "db": {
-        "uri": "mongodb://localhost",
+        "uri": "mongodb://localhost:27017/ckvapps_account",
         "state": 'CLEAN' //DIRTY OR CLEAN
     },
     "log": {
@@ -29,4 +29,3 @@ module.exports = {
         "callbackurl": "http://localhost:8082/api/oauth2callback"
     }
 }
-

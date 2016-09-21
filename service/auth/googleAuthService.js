@@ -31,7 +31,10 @@ function getAuthUrl() {
 }
 
 function getAuthCode(req) {
-    log.debug("entered GoogleAuthService.getAuthCode with req object");
+    log.debug(new error.DebugLog({
+        "enteredFunction": "GoogleAuthService.getAuthCode",
+        "query": req.query
+    }).stack);
     return new Promise(function(fulfill, reject) {
 
         if (req.query) {
@@ -50,7 +53,10 @@ function getAuthCode(req) {
 }
 
 function getAccessToken(auth_code) {
-    log.debug("entered GoogleAuthService.getAccessToken with auth_code: " + auth_code);
+    log.debug(new error.DebugLog({
+        "enteredFunction": "GoogleAuthService.getAccessToken",
+        "auth_code": auth_code
+    }).stack);
     return new Promise(function(fulfill, reject) {
 
         request.post({
@@ -81,7 +87,10 @@ function getAccessToken(auth_code) {
 }
 
 function getAccessTokenPayload(accessToken) {
-    log.debug("entered GoogleAuthService.getAccessTokenPayload with accessToken: " + accessToken);
+    log.debug(new error.DebugLog({
+        "enteredFunction": "GoogleAuthService.getAccessTokenPayload",
+        "accessToken": accessToken
+    }).stack);
     return new Promise(function(fulfill, reject) {
 
         let accessTokenP = JSON.parse(accessToken);

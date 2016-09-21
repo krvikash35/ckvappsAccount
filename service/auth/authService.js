@@ -17,11 +17,14 @@ AuthService.prototype.login = login;
 AuthService.prototype.handleOauthCallback = handleOauthCallback;
 
 function login(req, res) {
-    log.debug("entered Authservice.login with : \n" + ReqResExtracter.getRequest(req));
+    log.debug(new error.DebugLog({
+        "enteredFunction": "AuthService.login",
+        "request": ReqResExtracter.getRequest(req)
+    }).stack);
+
     let returnData = {
         "data": null
     };
-
     if (req.query && req.query.via) {
         switch (req.query.via) {
             case prop.idProvider.google.name:
@@ -46,7 +49,10 @@ function login(req, res) {
 }
 
 function handleOauthCallback(req, res) {
-    log.debug("called AuthService.handleOauthCallback with:" + ReqResExtracter.getRequest(req));
+    log.debug(new error.DebugLog({
+        "enteredFunction": "AuthService.handleOauthCallback",
+        "request": ReqResExtracter.getRequest(req)
+    }).stack);
 
     let idProvider = prop.idProvider.google.name;
     switch (idProvider) {

@@ -3,11 +3,16 @@ var bodyParser = require('body-parser');
 var exp = require('express');
 var morgan = require('morgan')
 var authService = require(__proot + "/service/auth/authService")
+var log = require(__proot + "/service/log/logService")
+var error = require(__proot + "/service/error/error")
 
 
 module.exports = routeConfig;
 
 function routeConfig(app) {
+    log.debug(new error.DebugLog({
+        "enteredFunction": "routeConfig"
+    }));
     let apiRouter = exp.Router()
 
     //route middleware
