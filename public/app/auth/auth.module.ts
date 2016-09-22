@@ -4,13 +4,14 @@ import { AuthComponent }  from './auth.component'
 import { authRouting } from './auth.routing';
 import { HttpModule } from '@angular/http';
 import { AuthGaurd } from './auth-gaurd.service';
+import { AuthService } from './auth.service'
 
 
 
 @NgModule({
     imports: [CommonModule, authRouting, HttpModule],
     declarations: [AuthComponent],
-    providers: [ AuthGaurd]
+    providers: [ AuthGaurd, AuthService]
 })
 export class AuthModule {
 
