@@ -1,5 +1,6 @@
 'use strict'
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser')
 var exp = require('express');
 var morgan = require('morgan')
 var authService = require(__proot + "/service/auth/authService")
@@ -13,8 +14,9 @@ function routeConfig(app) {
     log.debug(new error.DebugLog({
         "enteredFunction": "routeConfig"
     }));
-    let apiRouter = exp.Router()
 
+    let apiPrivRouter = exp.Router()
+    let apiPubRouter = exp.Router()
     //route middleware
     app.use('/node_modules', exp.static(__proot + '/node_modules'));
     app.use(exp.static(__proot + '/public'));
@@ -23,12 +25,10 @@ function routeConfig(app) {
         extended: false
     }));
     app.use(bodyParser.json());
-    app.use('/api', apiRouter);
+    app.use(cookieParser())
+    app.use('/api', apiPrivRouter);
 
-    app.get('*', function(req, res) {
-        res.sendFile(__proot + "/public/index.html")
-    })
-
-    apiRouter.get('/login', authService.login)
-    apiRouter.get('/oauth2callback', authService.handleOauthCallback)
+    app.get('*', function(req, res) {  res.sendFile(__proot + "/public/index.html") })
+    apiPrivRouter.get('/login', authService.login)
+    apiPrivRouter.get('/oauth2callback', authService.handleOauthCallback)
 }
