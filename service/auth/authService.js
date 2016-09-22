@@ -23,6 +23,7 @@ function login(req, res) {
         "enteredFunction": "AuthService.login",
         "request": ReqResExtracter.getRequest(req)
     }).stack);
+ 
 
     let returnData = {
         "data": null
@@ -73,7 +74,14 @@ function handleOauthCallback(req, res) {
                     return getSignedToken(userPayload)
                 })
                 .then(function(signedToken) {
-                    return res.status(200).send(signedToken);
+                    res.cookie('TID', signedToken, {maxAge: 9999999999999999});    
+                        let referer  = req.headers['referer']             
+                        if( referer.split('?')[1] ){
+                            referer = referer + "&token=" + signedToken;
+                        }else{
+                            referer = referer + "?token=" + signedToken;
+                        }             
+                    return res.redirect( referer )
                 })
                 .catch(function(err) {
                     log.error(err.stack)
