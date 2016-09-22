@@ -19,7 +19,7 @@ function getRequest(req) {
         "query": req['query'],
         "body": req['body']
     }
-    return JSON.stringify(reqObj, null, 4);
+    return reqObj;
 }
 
 function getResponse(res) {
