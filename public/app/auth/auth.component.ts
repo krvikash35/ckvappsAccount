@@ -5,8 +5,7 @@ import { Auth } from './auth.model'
 
 @Component({
     templateUrl: 'app/auth/auth.html',
-    styleUrls: ['app/auth/auth.css'],
-    providers: [ AuthService ]
+    styleUrls: ['app/auth/auth.css']
 })
 export class AuthComponent implements OnInit {
     auth: Auth = new Auth();
@@ -16,13 +15,7 @@ export class AuthComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let isLoggedIn = this.authService.isLoggedIn();
-        if (isLoggedIn) {
-            this.auth.isLoggedIn = true;
-        } else {
-            this.auth.isLoggedIn = false;
-        }
-
+      
     }
 
     login(via) {
