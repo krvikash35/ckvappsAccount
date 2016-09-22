@@ -1,11 +1,12 @@
 import { Component, OnInit }  from  '@angular/core'
-import {  AuthService } from './shared/auth.service';
-import { Auth } from './shared/auth.model'
+import {  AuthService } from './auth.service';
+import { Auth } from './auth.model'
+
 
 @Component({
     templateUrl: 'app/auth/auth.html',
     styleUrls: ['app/auth/auth.css'],
-    providers: [AuthService]
+    providers: [ AuthService ]
 })
 export class AuthComponent implements OnInit {
     auth: Auth = new Auth();
