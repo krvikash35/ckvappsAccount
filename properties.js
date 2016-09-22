@@ -26,6 +26,8 @@ module.exports = {
     },
     "oauth2": {
         // "callbackurl": "https://accounts.ckvapps.co.in/oauth2callback",
-        "callbackurl": "http://localhost:8082/api/oauth2callback"
+        "callbackurl": "http://localhost:8082/api/oauth2callback",
+        "secret": '1234',
+        "iss": "https://accounts.ckvapps.co.in"
     }
 }

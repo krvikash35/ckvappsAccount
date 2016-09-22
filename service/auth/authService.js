@@ -1,5 +1,6 @@
 'use strict'
 var request = require('request');
+var jwt = require('jsonwebtoken');
 var prop = require(__proot + '/properties')
 var log = require(__proot + '/service/log/logService')
 var ReqResExtracter = require(__proot + '/service/log/reqResExtracter')
@@ -15,6 +16,7 @@ function AuthService() {
 
 AuthService.prototype.login = login;
 AuthService.prototype.handleOauthCallback = handleOauthCallback;
+AuthService.prototype.isLoggedIn = isLoggedIn;
 
 function login(req, res) {
     log.debug(new error.DebugLog({
@@ -65,16 +67,92 @@ function handleOauthCallback(req, res) {
                     return googleAuthService.getAccessTokenPayload(gAccessToken);
                 })
                 .then(function(gpayload) {
-                    return user.createUser(gpayload, idProvider);
+                    return user.getOrCreateGoogleSub(gpayload)
                 })
-                .then(function(user) {
-                    res.status(200).send(user);
+                .then(function(userPayload) {
+                    return getSignedToken(userPayload)
+                })
+                .then(function(signedToken) {
+                    return res.status(200).send(signedToken);
                 })
                 .catch(function(err) {
                     log.error(err.stack)
-                    res.status(400).send(err.resForUser)
+                    return res.status(400).send(err.resForUser)
                 })
             break;
     }
 
+}
+
+function isLoggedIn(req, res) {
+    var bearerHeader = req.headers["authorization"]; //Authorization :'Bearer token'
+    if (bearerHeader) {
+        let userToken = bearerHeader.split(" ")[1]
+        if (userToken) {
+            validateUserToken(userToken)
+                .then(function(payload) {
+                    return res.status(200).send({
+                        data: true
+                    })
+                })
+                .catch(function(err) {
+                    log.warn(err.stack)
+                    return res.status(400).send({
+                        data: err.resForUser
+                    });
+                })
+        } else {
+            let err = new error.InvalidRequestError('Token not present in Authorization header');
+            log.warn(err.stack);
+            return res.status(400).send({
+                data: err.resForUser
+            });
+        }
+    } else {
+        let err = new error.InvalidRequestError('Bearer not present in Authorization header');
+        log.warn(err.stack);
+        return res.status(400).send({
+            data: err.resForUser
+        });
+    }
+}
+
+function getSignedToken(payload) {
+    log.debug(new error.DebugLog({
+        "enteredFunction": "AuthService.getSignedToken",
+        "payload": payload
+    }).stack);
+    return new Promise(function(fulfill, reject) {
+
+        let options = {
+            expiresIn: "2 days",
+            issuer: prop.oauth2.iss,
+            subject: payload.id.toString()
+        }
+
+        jwt.sign(payload, prop.oauth2.secret, options, function(err, signedToken) {
+            if (err)
+                reject(new error.InvalidRequestError(err));
+            else
+                fulfill(signedToken)
+        })
+
+    })
+}
+
+function validateUserToken(userToken) {
+    log.debug(new error.DebugLog({
+        "enteredFunction": "AuthService.validateUserToken",
+        "userToken": userToken
+    }).stack);
+    return new Promise(function(fulfill, reject) {
+
+        jwt.verify(userToken, prop.oauth2.secret, function(err, decoded) {
+            if (err)
+                reject(new error.InvalidRequestError(err.message));
+            else
+                resolve(decoded)
+        })
+
+    })
 }

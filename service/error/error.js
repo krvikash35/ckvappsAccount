@@ -82,6 +82,7 @@ function DebugLog(msg) {
     } else {
         this.message = msg;
     }
+    Error.stackTraceLimit = 5;
 }
 
 function InfoLog(msg) {
@@ -97,6 +98,7 @@ function InfoLog(msg) {
     } else {
         this.message = msg;
     }
+    Error.stackTraceLimit = 5;
 }
 
 function WarnLog(msg) {
@@ -112,4 +114,5 @@ function WarnLog(msg) {
     } else {
         this.message = msg;
     }
+    Error.stackTraceLimit = 5;
 }
