@@ -5,7 +5,6 @@ var app = require('express')();
 var httpd = require('http').createServer(app);
 var mongoose = require('mongoose');
 
-
 //configuaration: db, app, router etc
 require('./config/appConfig')(httpd);
 require('./config/dbConfig').createConnection();
