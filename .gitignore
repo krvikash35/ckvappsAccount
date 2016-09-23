@@ -1,7 +1,8 @@
-public/app/*.js
-public/app/auth/*.js
-public/app/auth/shared/*.js
-
-
 node_modules
-node_modules/*
+
+*.log
+
+public/*.log
+public/*.js
+public/**/*.js
+public/**/**/*.js
