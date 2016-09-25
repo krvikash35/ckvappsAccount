@@ -1,6 +1,5 @@
 'use strict'
 var prop = require(__proot + "/properties")
-var error = require(__proot + "/service/error/error")
 var logger = require('logat')
 
 module.exports = appConfig;

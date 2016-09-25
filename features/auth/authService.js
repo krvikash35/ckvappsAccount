@@ -2,10 +2,7 @@
 var request = require('request');
 var jwt = require('jsonwebtoken');
 var prop = require(__proot + '/properties')
-var log = require(__proot + '/service/log/logService')
-var ReqResExtracter = require(__proot + '/service/log/reqResExtracter')
-var googleAuthService = require(__proot + '/service/auth/googleAuthService');
-var error = require(__proot + '/service/error/error');
+var googleAuthService = require(__proot + '/features/auth/googleAuthService');
 var user = require(__proot + '/model/user');
 var logger = require('logat');
 
@@ -20,34 +17,35 @@ AuthService.prototype.handleOauthCallback = handleOauthCallback;
 AuthService.prototype.isLoggedIn = isLoggedIn;
 
 function login(req, res) {
-    logger.debug()
-    log.debug(new error.DebugLog({
-        "enteredFunction": "AuthService.login",
-        "request": ReqResExtracter.getRequest(req)
-    }).stack);
-
-
-    let returnData = {
-        "data": null
-    };
+    logger.debug();
     if (req.query && req.query.via) {
         switch (req.query.via) {
             case prop.idProvider.google.name:
-                returnData.data = googleAuthService.getAuthUrl();
-                res.status(200);
+                let usrRes = {
+                    data: googleAuthService.getAuthUrl()
+                }
+                log.info('UserSuccessResponse', usrRes)
+                return res.status(200).send(usrRes);
                 break;
-
             default:
-                let err = new error.InvalidRequestError('login method provided is not supported');
-                log.warn(err.stack);
-                returnData.data = err.resForUser;
-                res.status(400);
+                let usrRes = {
+                    data: {
+                        error: 'InvalidRequestError',
+                        error_description: 'login method provided is not supported'
+                    }
+                }
+                logger.warn('UserErrorResponse: ', usrRes)
+                return res.status(400).send(usrRes);
         }
     } else {
-        let err = new error.InvalidRequestError('login method not provided');
-        log.warn(err.stack);
-        returnData.data = err.resForUser;
-        res.status(400);
+        let usrRes = {
+            data: {
+                error: 'InvalidRequestError',
+                error_description: 'login method not provided'
+            }
+        }
+        logger.warn('UserErrorResponse: ', usrRes)
+        return res.status(400).send(usrRes);
     }
 
     return res.send(returnData)

@@ -1,7 +1,6 @@
 'use strict'
 var mongoose = require('mongoose');
 var prop = require(__proot + '/properties');
-var error = require(__proot + "/service/error/error")
 var logger = require('logat');
 
 module.exports = new DBConfig();

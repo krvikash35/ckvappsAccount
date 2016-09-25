@@ -3,10 +3,8 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser')
 var exp = require('express');
 var morgan = require('morgan')
-var authService = require(__proot + "/service/auth/authService")
-var error = require(__proot + "/service/error/error")
+var authService = require(__proot + "/features/auth/authService")
 var logger = require('logat')
-
 
 module.exports = routeConfig;
 
