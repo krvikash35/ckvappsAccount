@@ -23,7 +23,7 @@ function login(req, res) {
         "enteredFunction": "AuthService.login",
         "request": ReqResExtracter.getRequest(req)
     }).stack);
- 
+
 
     let returnData = {
         "data": null
@@ -74,14 +74,16 @@ function handleOauthCallback(req, res) {
                     return getSignedToken(userPayload)
                 })
                 .then(function(signedToken) {
-                    res.cookie('TID', signedToken, {maxAge: 9999999999999999});    
-                        let referer  = req.headers['referer']             
-                        if( referer.split('?')[1] ){
-                            referer = referer + "&token=" + signedToken;
-                        }else{
-                            referer = referer + "?token=" + signedToken;
-                        }             
-                    return res.redirect( referer )
+                    res.cookie('TID', signedToken, {
+                        maxAge: 9999999999999999
+                    });
+                    let referer = req.headers['referer']
+                    if (referer.split('?')[1]) {
+                        referer = referer + "&token=" + signedToken;
+                    } else {
+                        referer = referer + "?token=" + signedToken;
+                    }
+                    return res.redirect(referer)
                 })
                 .catch(function(err) {
                     log.error(err.stack)
@@ -93,7 +95,10 @@ function handleOauthCallback(req, res) {
 }
 
 function isLoggedIn(req, res) {
+    log.debug('inside isLoggedIn');
+    console.log(req.headers)
     var bearerHeader = req.headers["authorization"]; //Authorization :'Bearer token'
+    console.log("bearerHeader", bearerHeader)
     if (bearerHeader) {
         let userToken = bearerHeader.split(" ")[1]
         if (userToken) {
@@ -159,7 +164,7 @@ function validateUserToken(userToken) {
             if (err)
                 reject(new error.InvalidRequestError(err.message));
             else
-                resolve(decoded)
+                fulfill(decoded)
         })
 
     })

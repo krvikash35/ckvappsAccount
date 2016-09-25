@@ -10,12 +10,11 @@ import { Auth } from './auth.model'
 export class AuthComponent implements OnInit {
     auth: Auth = new Auth();
 
-    constructor(
-        private authService: AuthService
-    ) { }
+    constructor(private authService: AuthService) {
+        console.log('AuthComponent constructor called')
+    }
 
     ngOnInit() {
-      
     }
 
     login(via) {

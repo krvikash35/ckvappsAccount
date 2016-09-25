@@ -17,7 +17,7 @@ function routeConfig(app) {
 
     let apiPrivRouter = exp.Router()
     let apiPubRouter = exp.Router()
-    //route middleware
+        //route middleware
     app.use('/node_modules', exp.static(__proot + '/node_modules'));
     app.use(exp.static(__proot + '/public'));
     app.use(morgan('dev'));
@@ -28,7 +28,10 @@ function routeConfig(app) {
     app.use(cookieParser())
     app.use('/api', apiPrivRouter);
 
-    app.get('*', function(req, res) {  res.sendFile(__proot + "/public/index.html") })
+    app.get('*', function(req, res) {
+        res.sendFile(__proot + "/public/index.html")
+    })
     apiPrivRouter.get('/login', authService.login)
     apiPrivRouter.get('/oauth2callback', authService.handleOauthCallback)
+    apiPrivRouter.get('/isloggedin', authService.isLoggedIn)
 }
