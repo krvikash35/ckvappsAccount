@@ -151,7 +151,7 @@ function validateUserToken(userToken) {
 
         jwt.verify(userToken, prop.oauth2.secret, function(err, decoded) {
             if (err)
-                reject(new error.InvalidRequestError(err.message));
+                reject(err);
             else
                 fulfill(decoded)
         })
