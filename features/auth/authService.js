@@ -18,32 +18,25 @@ AuthService.prototype.isLoggedIn = isLoggedIn;
 
 function login(req, res) {
     logger.debug();
+    let usrRes = {
+        data: {}
+    }
     if (req.query && req.query.via) {
         switch (req.query.via) {
             case prop.idProvider.google.name:
-                let usrRes = {
-                    data: googleAuthService.getAuthUrl()
-                }
-                log.info('UserSuccessResponse', usrRes)
+                usrRes.data = googleAuthService.getAuthUrl()
+                logger.info('UserSuccessResponse', usrRes)
                 return res.status(200).send(usrRes);
                 break;
             default:
-                let usrRes = {
-                    data: {
-                        error: 'InvalidRequestError',
-                        error_description: 'login method provided is not supported'
-                    }
-                }
+                usrRes.data.error = 'InvalidRequestError';
+                usrRes.data.error_description = 'login method provided is not supported';
                 logger.warn('UserErrorResponse: ', usrRes)
                 return res.status(400).send(usrRes);
         }
     } else {
-        let usrRes = {
-            data: {
-                error: 'InvalidRequestError',
-                error_description: 'login method not provided'
-            }
-        }
+        usrRes.data.error = 'InvalidRequestError';
+        usrRes.data.error_description = 'login method not provided';
         logger.warn('UserErrorResponse: ', usrRes)
         return res.status(400).send(usrRes);
     }
@@ -52,11 +45,10 @@ function login(req, res) {
 }
 
 function handleOauthCallback(req, res) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "AuthService.handleOauthCallback",
-        "request": ReqResExtracter.getRequest(req)
-    }).stack);
-
+    logger.debug();
+    let usrRes = {
+        data: {}
+    }
     let idProvider = prop.idProvider.google.name;
     switch (idProvider) {
         case prop.idProvider.google.name:
@@ -86,8 +78,10 @@ function handleOauthCallback(req, res) {
                     return res.redirect(referer)
                 })
                 .catch(function(err) {
-                    log.error(err.stack)
-                    return res.status(400).send(err.resForUser)
+                    usrRes.data.error = err.name;
+                    usrRes.data.error_description = err.message;
+                    logger.error(err)
+                    return res.status(400).send(usrRes)
                 })
             break;
     }
@@ -95,46 +89,44 @@ function handleOauthCallback(req, res) {
 }
 
 function isLoggedIn(req, res) {
-    log.debug('inside isLoggedIn');
-    console.log(req.headers)
+    logger.debug();
+    let usrRes = {
+        data: {}
+    }
     var bearerHeader = req.headers["authorization"]; //Authorization :'Bearer token'
-    console.log("bearerHeader", bearerHeader)
+    logger.info('BearerHeader: ', bearerHeader);
     if (bearerHeader) {
         let userToken = bearerHeader.split(" ")[1]
         if (userToken) {
             validateUserToken(userToken)
                 .then(function(payload) {
-                    return res.status(200).send({
-                        data: true
-                    })
+                    usrRes.data = true;
+                    logger.info('UserSuccessResponse for isLoggedIn true send')
+                    return res.status(200).send(usrRes)
                 })
                 .catch(function(err) {
-                    log.warn(err.stack)
-                    return res.status(400).send({
-                        data: err.resForUser
-                    });
+                    usrRes.data.error = err.name;
+                    usrRes.data.message = err.message;
+                    logger.warn('UserErrorResponse', err)
+                    return res.status(400).send(usrRes);
                 })
         } else {
-            let err = new error.InvalidRequestError('Token not present in Authorization header');
-            log.warn(err.stack);
-            return res.status(400).send({
-                data: err.resForUser
-            });
+            usrRes.error = 'InvalidRequestError';
+            usrRes.error_description = 'Token not present in Authorization header'
+            logger.warn('UserErrorResponse: ', usrRes);
+            return res.status(400).send(usrRes);
         }
     } else {
-        let err = new error.InvalidRequestError('Bearer not present in Authorization header');
-        log.warn(err.stack);
-        return res.status(400).send({
-            data: err.resForUser
-        });
+        usrRes.data.error = 'InvalidRequestError';
+        usrRes.data.message = 'Bearer not present in Authorization header';
+        logger.warn('UserErrorResponse: ', usrRes);
+        return res.status(400).send(usrRes);
     }
 }
 
 function getSignedToken(payload) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "AuthService.getSignedToken",
-        "payload": payload
-    }).stack);
+    logger.debug();
+    logger.info('getSignedTokenForPayload: ', payload)
     return new Promise(function(fulfill, reject) {
 
         let options = {
@@ -142,10 +134,9 @@ function getSignedToken(payload) {
             issuer: prop.oauth2.iss,
             subject: payload.id.toString()
         }
-
         jwt.sign(payload, prop.oauth2.secret, options, function(err, signedToken) {
             if (err)
-                reject(new error.InvalidRequestError(err));
+                reject(err);
             else
                 fulfill(signedToken)
         })
@@ -154,10 +145,8 @@ function getSignedToken(payload) {
 }
 
 function validateUserToken(userToken) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "AuthService.validateUserToken",
-        "userToken": userToken
-    }).stack);
+    logger.debug();
+    logger.info('validateUserTokenFor: ', userToken)
     return new Promise(function(fulfill, reject) {
 
         jwt.verify(userToken, prop.oauth2.secret, function(err, decoded) {

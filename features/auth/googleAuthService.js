@@ -3,8 +3,7 @@ var jwt = require('jsonwebtoken');
 var fs = require('fs');
 var request = require('request');
 var prop = require(__proot + '/properties');
-var log = require(__proot + '/service/log/logService');
-var error = require(__proot + '/service/error/error')
+var logger = require('logat');
 
 module.exports = new GoogleAuthService();
 
@@ -18,8 +17,7 @@ GoogleAuthService.prototype.getAccessToken = getAccessToken;
 GoogleAuthService.prototype.getAccessTokenPayload = getAccessTokenPayload;
 
 function getAuthUrl() {
-    log.debug("entered GoogleAuthService.getAuthUrl with no arg")
-
+    logger.debug()
     let googleOauthStep1Url = prop.idProvider.google.oauth2Step1UrlEP + "scope=" +
         encodeURIComponent(prop.idProvider.google.scope) + "&response_type=" +
         encodeURIComponent(prop.idProvider.google.response_type) + "&client_id=" +
@@ -31,32 +29,27 @@ function getAuthUrl() {
 }
 
 function getAuthCode(req) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "GoogleAuthService.getAuthCode",
-        "query": req.query
-    }).stack);
+    logger.debug();
     return new Promise(function(fulfill, reject) {
 
         if (req.query) {
             if (req.query.code) {
                 fulfill(req.query.code)
             } else if (req.query.error) {
-                reject(new error.SocialProviderError('Google error response for accesscode: ' + req.query.error));
+                reject(new Error('Google error response for accesscode: ' + req.query.error));
             } else {
-                reject(new error.SocialProviderError('No accesscode returned from google'));
+                reject(new Error('No accesscode returned from google'));
             }
         } else {
-            reject(new error.SocialProviderError('No query returned from google in http headers'))
+            reject(new Error('No query returned from google in http headers'))
         }
 
     })
 }
 
 function getAccessToken(auth_code) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "GoogleAuthService.getAccessToken",
-        "auth_code": auth_code
-    }).stack);
+    logger.debug();
+    logger.info('getAccessTokenForAuthCode: ', auth_code)
     return new Promise(function(fulfill, reject) {
 
         request.post({
@@ -73,11 +66,11 @@ function getAccessToken(auth_code) {
         )
 
         function handleAccessToken(err, httpRes, body) {
-            log.debug("entered GoogleAuthService.getAccessToken.handleAccessToken with body: " + body);
+            logger.debug("entered GoogleAuthService.getAccessToken.handleAccessToken with body: " + body);
             if (err) {
-                reject(new error.ServerError(err.message))
+                reject(err)
             } else if (body.error) {
-                reject(new error.SocialProviderError("GoogleErrRespForAccessToken-" + body.error.name + "-" + body.error.error_description));
+                reject(new Error("GoogleErrRespForAccessToken-" + body.error.name + "-" + body.error.error_description));
             } else {
                 fulfill(body)
             }
@@ -87,10 +80,8 @@ function getAccessToken(auth_code) {
 }
 
 function getAccessTokenPayload(accessToken) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "GoogleAuthService.getAccessTokenPayload",
-        "accessToken": accessToken
-    }).stack);
+    logger.debug();
+    logger.info('getAccessTokenPayloadFor: ', accessToken)
     return new Promise(function(fulfill, reject) {
 
         let accessTokenP = JSON.parse(accessToken);
@@ -101,7 +92,7 @@ function getAccessTokenPayload(accessToken) {
         let fileLoc = __proot + '/keys/google.pem';
         fs.readFile(fileLoc, (err, cert) => {
             if (err)
-                reject(error.ServerError('Error reading google pem key file at ' + fileLoc));
+                reject(err);
             else {
                 jwt.verify(accessTokenP.id_token, cert, {
                         ignoreExpiration: true,
@@ -109,7 +100,7 @@ function getAccessTokenPayload(accessToken) {
                     },
                     function(err, payload) {
                         if (err) {
-                            reject(new error.SocialProviderError("InvalidGooleAccessToken-" + err.name + "-" + err.message))
+                            reject(err)
                         } else {
                             fulfill(payload);
                         }

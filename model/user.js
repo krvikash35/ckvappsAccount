@@ -1,10 +1,9 @@
 'use strict'
 var dbcon = require(__proot + '/config/dbConfig').getConnection();
 var mongoose = require('mongoose')
-var error = require(__proot + '/service/error/error');
-var log = require(__proot + '/service/log/logService');
 var prop = require(__proot + '/properties');
-// var dbcon = mongoose.createConnection(prop.db.uri);
+var logger = require('logat')
+    // var dbcon = mongoose.createConnection(prop.db.uri);
 
 var userSchema = new mongoose.Schema({
     basicInfo: {
@@ -20,77 +19,15 @@ var userSchema = new mongoose.Schema({
 
 var User = dbcon.model('Users', userSchema);
 var userService = {
-    createUser: createUser,
-    getUserByGoogleSub: getUserByGoogleSub,
     getOrCreateGoogleSub: getOrCreateGoogleSub
 }
 
 module.exports = userService;
 
 //model.collection.insert is faster than model.create, as it bypass mongoose validation to go directly to mongodb driver
-function createUser(userInfo, idProvider) {
-    log.debug("entered userService.createUser with idProvider: " + idProvider + " userInfo: " + JSON.stringify(userInfo, null, 4))
-    return new Promise(function(fulfill, reject) {
-
-        var userd = {
-            basicInfo: {},
-            idProvider: {}
-        };
-        if (idProvider === 'google') {
-            userd.basicInfo.name = userInfo.name;
-            userd.basicInfo.email = userInfo.email;
-            userd.basicInfo.picture = userInfo.picture;
-            userd.basicInfo.emailVerified = userInfo.email_verified;
-            userd.idProvider.google = userInfo;
-        }
-        User.create(userd, function(err, user) {
-            if (err) {
-                reject(new error.DBError("Error creating user-" + err.name + "-" + err.message))
-            } else {
-                user.basicInfo._id = user._id;
-                fulfill(user.basicInfo);
-            }
-        })
-
-    })
-}
-
-function getUserByGoogleSub(sub) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "userService.getUserByGoogleSub",
-        "sub": sub
-    }).stack)
-    return new Promise(function(fulfill, reject) {
-
-        User.find({
-            'idProvider.google.sub': sub
-        }, function(err, user) {
-            if (err) {
-                reject(new error.DBError(err.message))
-            } else {
-                if (user.length == 0) {
-                    fulfill(null)
-                } else {
-                    let basicInfo = {}
-                    basicInfo.id = user[0].id;
-                    basicInfo.name = user[0].basicInfo.name
-                    basicInfo.picture = user[0].basicInfo.picture;
-                    basicInfo.emailVerified = user[0].basicInfo.emailVerified;
-                    fulfill(basicInfo)
-                }
-            }
-
-        })
-
-    })
-}
-
-
 function getOrCreateGoogleSub(sub) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": userService.getOrCreateGoogleSub,
-        "sub": sub
-    }).stack)
+    logger.debug();
+    logger.info('getOrCreateGoogleSub with sub: ', sub)
 
     return new Promise(function(fulfill, reject) {
 
