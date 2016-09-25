@@ -7,6 +7,7 @@ var ReqResExtracter = require(__proot + '/service/log/reqResExtracter')
 var googleAuthService = require(__proot + '/service/auth/googleAuthService');
 var error = require(__proot + '/service/error/error');
 var user = require(__proot + '/model/user');
+var logger = require('logat');
 
 module.exports = new AuthService();
 
@@ -19,6 +20,7 @@ AuthService.prototype.handleOauthCallback = handleOauthCallback;
 AuthService.prototype.isLoggedIn = isLoggedIn;
 
 function login(req, res) {
+    logger.debug()
     log.debug(new error.DebugLog({
         "enteredFunction": "AuthService.login",
         "request": ReqResExtracter.getRequest(req)

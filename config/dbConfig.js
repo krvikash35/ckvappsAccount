@@ -1,8 +1,8 @@
 'use strict'
 var mongoose = require('mongoose');
-var log = require(__proot + "/service/log/logService")
 var prop = require(__proot + '/properties');
 var error = require(__proot + "/service/error/error")
+var logger = require('logat');
 
 module.exports = new DBConfig();
 
@@ -14,31 +14,20 @@ DBConfig.prototype.createConnection = createConnection;
 DBConfig.prototype.getConnection = getConnection;
 
 function createConnection() {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "DBConfig.createConnection",
-        "withArg": [null]
-    }).stack)
-
+    logger.debug();
     this.connection = mongoose.createConnection(prop.db.uri, function(err) {
         if (err) {
-            log.error(new error.DBError(err).stack)
+            logger.error(err)
         } else {
-            log.info(new error.InfoLog({
-                "openedDBConnectionTo": prop.db.uri
-            }).stack);
+            logger.info('DBConnection opened to: ', prop.db.uri)
         }
     })
     this.connection.on("close", function() {
-        prop.db.state = 'DIRTY';
-        log.error(new error.DBError("DBConnection closed").stack);
+        logger.error('DBConnection closed')
     })
-
 }
 
 function getConnection() {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "DBConfig.getConnection",
-        "withArg": [null]
-    }).stack)
+    logger.debug();
     return this.connection;
-};
+};;

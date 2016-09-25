@@ -4,16 +4,14 @@ var cookieParser = require('cookie-parser')
 var exp = require('express');
 var morgan = require('morgan')
 var authService = require(__proot + "/service/auth/authService")
-var log = require(__proot + "/service/log/logService")
 var error = require(__proot + "/service/error/error")
+var logger = require('logat')
 
 
 module.exports = routeConfig;
 
 function routeConfig(app) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "routeConfig"
-    }));
+    logger.debug();
 
     let apiPrivRouter = exp.Router()
     let apiPubRouter = exp.Router()
@@ -25,7 +23,8 @@ function routeConfig(app) {
         extended: false
     }));
     app.use(bodyParser.json());
-    app.use(cookieParser())
+    app.use(cookieParser());
+    app.use(reqResLogger);
     app.use('/api', apiPrivRouter);
 
     app.get('*', function(req, res) {
@@ -34,4 +33,10 @@ function routeConfig(app) {
     apiPrivRouter.get('/login', authService.login)
     apiPrivRouter.get('/oauth2callback', authService.handleOauthCallback)
     apiPrivRouter.get('/isloggedin', authService.isLoggedIn)
+}
+
+function reqResLogger(req, res, next) {
+    logger.info('originalUrl: ', req['originalUrl'], 'Path: ', req['path'], 'RequestQuery: ', req['query'],
+        'RequestHeaders: ', req.headers, 'ResquestBody: ', req.body);
+    next();
 }

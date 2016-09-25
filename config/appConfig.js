@@ -1,28 +1,20 @@
 'use strict'
 var prop = require(__proot + "/properties")
-var log = require(__proot + "/service/log/logService")
 var error = require(__proot + "/service/error/error")
+var logger = require('logat')
 
 module.exports = appConfig;
 
 function appConfig(httpd) {
-    log.debug(new error.DebugLog({
-        "enteredFunction": "appConfig",
-        "withArg": [httpd]
-    }).stack);
-
+    logger.debug();
     httpd.on('error', (err) => {
-        prop.app.state = 'DIRTY'
-        log.error(new error.ServerError(err).stack)
-    })
-
+        logger.error(err);
+    });
     httpd.listen(prop.app.port, function(err) {
         if (err) {
-            log.error(new error.ServerError(err));
+            logger.error(err);
         } else {
-            log.info(new error.InfoLog({
-                "openedHostListenerOn": prop.app.port
-            }).stack);
+            logger.info('App server bind to port: ', prop.app.port)
         }
     });
 
