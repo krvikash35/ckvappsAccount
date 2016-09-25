@@ -1,10 +1,10 @@
 module.exports = {
     "app": {
-        "port": 8082,
+        "port": process.env.CKVAPPS_ACCOUNT_APP_PORT,
         "state": 'CLEAN' //DIRTY OR CLEAN
     },
     "db": {
-        "uri": "mongodb://localhost:27017/ckvapps_account",
+        "uri": process.env.CKVAPPS_ACCOUNT_DB_URL,
         "state": 'CLEAN' //DIRTY OR CLEAN
     },
     "log": {
@@ -14,8 +14,8 @@ module.exports = {
     "idProvider": {
         "google": {
             "name": "google",
-            "client_id": "342742052739-j842arsnvvgu58j8a3a98deejetgcb8d.apps.googleusercontent.com",
-            "client_secret": "FJYh1BBrDVfjRUR4ze7blNKw",
+            "client_id": process.env.CKVAPPS_ACCOUNT_GOOGLE_CLIENT_ID,
+            "client_secret": process.env.CKVAPPS_ACCOUNT_GOOGLE_CLIENT_SECRET,
             "oauth2Step1UrlEP": "https://accounts.google.com/o/oauth2/v2/auth?",
             "scope": "email profile",
             "response_type": "code",
@@ -27,7 +27,7 @@ module.exports = {
     "oauth2": {
         // "callbackurl": "https://accounts.ckvapps.co.in/oauth2callback",
         "callbackurl": "http://localhost:8082/api/oauth2callback",
-        "secret": '1234',
+        "secret": process.env.CKVAPPS_ACCOUNT_SERVER_SECRET,
         "iss": "https://accounts.ckvapps.co.in"
     }
 }
