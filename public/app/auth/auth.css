@@ -80,3 +80,25 @@
   line-height: 40px;
   padding-top: 5px;
 }
+
+.logout-button{
+	width:100px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: #9E9E9E;
+  color: #000000;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+
+
+.logout-button:hover{
+  background-color: #E0E0E0;
+}
+
+.logout-button:focus{
+  box-shadow: 1px 1px 4px 2px;
+  background-color: #616161;
+}

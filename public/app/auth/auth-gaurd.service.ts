@@ -11,7 +11,7 @@ export class AuthGaurd implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         console.log('AuthGaurd#canActivate called');
-        let redirectUrl = route.queryParams['continue'] || "http://localhost:8082/slldkld"
+        let redirectUrl = route.queryParams['continue'] || "http://localhost:8082/logout"
         let userToken = route.queryParams['token'];
         let isLoggedIn: Observable<boolean>;
         return isLoggedIn = new Observable(observer => {
