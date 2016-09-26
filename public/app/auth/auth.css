@@ -2,7 +2,9 @@
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.8em;
+  color: #000000;
+  opacity: 0.87;
 }
 
 .google-text{
@@ -16,6 +18,7 @@
       font-family: 'Roboto', sans-serif; /*google provided font*/
       font-style: normal; /*normal, italic, oblique */
       font-weight: 500; /*300-light, 400-regular,  500-medium, 700-bold*/
+      font-size: 0.8em;
 }
 
 .google-icon{
@@ -76,26 +79,4 @@
   vertical-align: middle;
   line-height: 40px;
   padding-top: 5px;
-}
-
-
-.flex-item-col{
-  padding: 5px 0 0 0;
-}
-
-.flex-item-row{
-  padding: 0 7px 0 0;
-}
-
-.flex-container-col{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: -5px 0 0 0;
-}
-
-.flex-container-row{
-  display: flex;
-  flex-direction: row;
-  margin: 0 -7px 0 0;
 }

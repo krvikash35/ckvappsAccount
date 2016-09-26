@@ -1,10 +1,53 @@
-/* Document level adjustments */
-html {
-  font-size: 17px;
+body{
+  margin: 0px;
 }
-@media (max-width: 900px) {
-  html { font-size: 15px; }
+
+
+.brand{
+  color: #FFFFFF;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #880E4F;
+  line-height: 40px;
+  text-align: center;
+  opacity: 0.5;
 }
-@media (max-width: 400px) {
-  html { font-size: 13px; }
+
+.header-container-row{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between; /*for horizontal placing*/
+  align-items: center;  /*for vertical placing*/
+  width: 100%;
+  height: 3rem;
+  background-color: #009688;
+}
+
+.header-item-row{
+    padding: 0 5px 0 5px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.flex-item-col{
+  padding: 5px 0 0 0;
+}
+
+.flex-item-row{
+  padding: 0 5px 0 5px;
+}
+
+.flex-container-col{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: -5px 0 0 0;
+}
+
+.flex-container-row{
+  display: flex;
+  flex-direction: row;
+  margin: 0 -7px 0 0;
 }

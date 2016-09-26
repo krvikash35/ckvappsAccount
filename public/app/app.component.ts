@@ -3,10 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
     selector: 'my-app',
-    template: `
-      <h1>ckvapps</h1>
-      <router-outlet></router-outlet>
-      `
+    templateUrl: 'app/app.html'
 })
 
 export class AppComponent {
