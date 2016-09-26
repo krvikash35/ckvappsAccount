@@ -1,104 +1,142 @@
-.signin-head-msg{
-  font-family: 'Roboto', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 0.8em;
-  color: #000000;
-  opacity: 0.87;
+.signin-head-msg {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: #000000;
+    opacity: 0.87;
 }
 
-.google-text{
-      width: 80%;
-      height: 40px;
-      background-color: #4285F4;
-      color: #FFFFFF;
-      text-align: center;
-      vertical-align: middle;
-      line-height: 40px;
-      font-family: 'Roboto', sans-serif; /*google provided font*/
-      font-style: normal; /*normal, italic, oblique */
-      font-weight: 500; /*300-light, 400-regular,  500-medium, 700-bold*/
-      font-size: 0.8em;
+.google-text {
+    width: 80%;
+    height: 40px;
+    background-color: #4285F4;
+    color: #FFFFFF;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    font-family: 'Roboto', sans-serif;
+    /*google provided font*/
+    font-style: normal;
+    /*normal, italic, oblique */
+    font-weight: 500;
+    /*300-light, 400-regular,  500-medium, 700-bold*/
+    font-size: 0.8em;
 }
 
-.google-icon{
-  width: 20%;
+.google-icon {
+    width: 20%;
 }
 
-.google-signin{
-  display: flex;
-  border: solid 2px #4285F4;
-  border-radius: 4px 4px 4px 4px;
-  box-shadow: 2px 2px 2px 1px rgba(66,133,244,1);
-  width: 200px;
-  height: 40px;
-  flex-direction: row;
-  justify-content: center;
+.google-signin {
+    display: flex;
+    border: solid 2px #4285F4;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 2px 2px 2px 1px rgba(66, 133, 244, 1);
+    width: 200px;
+    height: 40px;
+    flex-direction: row;
+    justify-content: center;
 }
 
-.google-signin:hover{
-  cursor: pointer;
+.google-signin:hover {
+    cursor: pointer;
 }
 
+.facebook-signin {
+    display: flex;
+    border: solid 1px #4285F4;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 2px 2px 2px 1px rgba(66, 133, 244, 1);
+    margin: auto;
+    width: 240px;
+    height: 40px;
+    flex-direction: row;
+    justify-content: center;
+}
 
-.facebook-signin{
-  display: flex;
-  border: solid 1px #4285F4;
-  border-radius: 5px 5px 5px 5px;
-  box-shadow: 2px 2px 2px 1px rgba(66,133,244,1);
-  margin: auto;
-  width: 240px;
-  height: 40px;
-  flex-direction: row;
-  justify-content: center;
+.facebook-text {
+    width: 80%;
+    height: 40px;
+    background-color: #4285F4;
+    color: #FFFFFF;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.facebook-icon {
+    width: 20%;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+    line-height: 40px;
+    padding-top: 5px;
+}
+
+.logout-button {
+    position: relative;
+    min-width: 80px;
+    height: 36px;
+    padding: 0 8px 0 8px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 36px;
+    color: #ffffff;
+    background: rgba(244, 67, 54, 1);
+    /*hover-300 normal-500 active-700 */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.logout-button:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 1px;
+  background: rgba(255, 255, 255, .5);
 
 }
 
-
-.facebook-text{
-      width: 80%;
-      height: 40px;
-      background-color: #4285F4;
-      color: #FFFFFF;
-      text-align: center;
-      vertical-align: middle;
-      line-height: 40px;
-      font-family: "Courier New", Courier, monospace;
-      font-weight: bold;
-      font-size: 14px;
-      white-space: nowrap;
+.logout-button:active::after {
+    animation: logoutAnim 1s ease-out;
 }
 
-.facebook-icon{
-  width: 20%;
-  font-family: "Courier New", Courier, monospace;
-  font-weight: bold;
-  font-size: 30px;
-  text-align: center;
-  line-height: 40px;
-  vertical-align: middle;
-  line-height: 40px;
-  padding-top: 5px;
+@keyframes logoutAnim {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(100, 50);
+    }
 }
-
-.logout-button{
-	width:100px;
-  height: 40px;
-  border-radius: 6px;
-  background-color: #9E9E9E;
-  color: #000000;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-}
-
 
 
 .logout-button:hover{
-  background-color: #E0E0E0;
+  background-color: #E57373;
+  cursor: pointer;
 }
-
-.logout-button:focus{
-  box-shadow: 1px 1px 4px 2px;
-  background-color: #616161;
+/*.logout-button:active{
+  background-color: #D32F2F;
+  box-shadow: 1px 1px 1px 2px rgba(0,0,0,0.8);
 }
+.logout-button-disabled{
+  opacity: 0.3;
+}*/

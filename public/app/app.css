@@ -21,8 +21,9 @@ body{
   justify-content: space-between; /*for horizontal placing*/
   align-items: center;  /*for vertical placing*/
   width: 100%;
-  height: 3rem;
+  height: 4em;
   background-color: #691A99;
+  margin-bottom: 5px;
 }
 
 .header-item-row{
