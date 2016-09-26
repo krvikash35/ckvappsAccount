@@ -25,7 +25,7 @@ export class AuthComponent implements OnInit {
                 window.location.href = data.toString();
             },
             error => {
-                this.auth.errMsg = error.description;
+                this.auth.errMsg = error.error_description;
                 console.log("LoginComponent.login on error: " + JSON.stringify(error))
             }
             )

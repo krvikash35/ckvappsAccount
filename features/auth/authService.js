@@ -106,7 +106,7 @@ function isLoggedIn(req, res) {
                 })
                 .catch(function(err) {
                     usrRes.data.error = err.name;
-                    usrRes.data.message = err.message;
+                    usrRes.data.error_description = err.message;
                     logger.warn('UserErrorResponse', err)
                     return res.status(400).send(usrRes);
                 })
@@ -118,7 +118,7 @@ function isLoggedIn(req, res) {
         }
     } else {
         usrRes.data.error = 'InvalidRequestError';
-        usrRes.data.message = 'Bearer not present in Authorization header';
+        usrRes.data.error_description = 'Bearer not present in Authorization header';
         logger.warn('UserErrorResponse: ', usrRes);
         return res.status(400).send(usrRes);
     }
