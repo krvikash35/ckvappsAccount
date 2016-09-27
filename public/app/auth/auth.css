@@ -82,6 +82,7 @@
 }
 
 .logout-button {
+    border: none;
     position: relative;
     min-width: 80px;
     height: 36px;
@@ -99,21 +100,29 @@
 }
 
 .logout-button:after {
-  content: '';
-  position: absolute;
-  top: 50%;
+    display: block;
+    content: 'hslddlsdlkdld';
+    position: absolute;
+    border: 1px solid black;
+    width: 178px;
+    height: 108px;
+  /*top: 50%;
   left: 50%;
-  width: 1px;
-  height: 1px;
-  background: rgba(255, 255, 255, .5);
-
+  width: 5px;
+  height: 5px;*/
+  /*background: rgba(255, 255, 255, .5);*/
+  /*background-color: black;
+  opacity: 1;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;*/
 }
 
-.logout-button:active::after {
-    animation: logoutAnim 1s ease-out;
+.logout-button:focus:not(:active)::after {
+    animation: logOutClickRipple 1s ease-out;
 }
 
-@keyframes logoutAnim {
+@keyframes logOutClickRipple {
     0% {
         transform: scale(0, 0);
         opacity: 1;
@@ -129,14 +138,26 @@
 }
 
 
-.logout-button:hover{
+/*.logout-button:hover{
   background-color: #E57373;
   cursor: pointer;
 }
-/*.logout-button:active{
+.logout-button:active{
   background-color: #D32F2F;
   box-shadow: 1px 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.logout-button:focus{
+  background-color: #D32F2F;
+  box-shadow: 1px 1px 1px 2px rgba(0,0,0,0.8);
+  outline: 0;
 }
 .logout-button-disabled{
   opacity: 0.3;
 }*/
+
+
+
+.btn{
+
+}

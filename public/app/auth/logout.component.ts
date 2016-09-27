@@ -6,12 +6,14 @@ import {  AuthService } from './auth.service';
     styleUrls: ['app/auth/auth.css']
 })
 export class LogoutComponent{
+  logoutConfig = { }
+
     constructor(private authService: AuthService) {
-        console.log('LogoutComponent constructor called');      
+        console.log('LogoutComponent constructor called');
     }
 
     logout(){
-      console.log('LogoutComponent.logout called');
+        console.log('LogoutComponent.logout called');
         window.localStorage.removeItem('TID');
     }
 
