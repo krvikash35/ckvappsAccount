@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "typings": "typings install",
-    "tsc": "typescript"
+    "build": "npm run tsc & npm run nodemon ",
+    "tsc": "tsc -w -p public",
+    "nodemon": "nodemon --ignore public index.js"
   },
   "author": "",
   "license": "ISC",
