@@ -4,8 +4,8 @@ import { Auth } from './auth.model'
 
 
 @Component({
-    templateUrl: 'app/auth/auth.html',
-    styleUrls: ['app/auth/auth.css']
+    templateUrl: 'app/auth/auth.html'
+    // styleUrls: ['app/auth/auth.css']
 })
 export class AuthComponent implements OnInit {
     auth: Auth = new Auth();
