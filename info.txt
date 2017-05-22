@@ -1,1 +1,33 @@
 
+common features: https, single-page, dark/light theme, sso, cross-apps-navigation, responsive, nodejs, angular, nginx, mongodb, amazonlightsail
+----------------
+
+APP1(identity.domain.com): User management
+------------------------
+Idea:         manage user and app information for identity purpose
+Data:        divide data in below categories
+        1. account/identity (unique Id, password)
+        2. personal infomation(name, age, sex, photo, location[country, state], email, mobileNo)
+        3. app specific detail i.e app Id, name, description, url, logo etc.
+feature: 
+
+APP2(chat.domain.com): chat
+--------------------
+Idea:     let user choose an favourite things, habit, hobbies etc. then try to match those thing with other users. 
+    create sorted list of person by %match in user chat list. Now user can chat with any of those listed person.
+    As the reply from each other increases, start revealing personal details. chat will not be stored parmanently in db.
+    every day start with fresh msg..
+Data:  
+featue:
+
+APP3(wc.domain.com): webconsole
+--------------------
+Idea:   let user do ssh through browser. user can create/edit/choose host configuration.
+Data:  
+feature: 
+
+APP4(doc.domain.com): doc
+---------------------
+Idea: create documetation of peronal notes and application notes.
+Data: static page, no database thing
+feature:
